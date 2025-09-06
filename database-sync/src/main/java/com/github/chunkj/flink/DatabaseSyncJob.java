@@ -1,6 +1,7 @@
 package com.github.chunkj.flink;
 
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.cdc.connectors.mysql.source.MySqlSource;
 import org.apache.flink.cdc.connectors.mysql.table.StartupOptions;
@@ -12,12 +13,22 @@ import java.io.InputStream;
 public class DatabaseSyncJob {
 
     public static void main(String[] args) throws Exception {
-        // 1. Create execution environment
-        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        env.setParallelism(1);
-
-        // 2. Load properties from config file and command line
+        // 1. Load properties from config file and command line first
         ParameterTool params = loadProperties(args);
+
+        // 2. Create execution environment based on configuration
+        final StreamExecutionEnvironment env;
+        boolean enableWebUI = params.getBoolean("flink.local.webui.enabled", false);
+
+        if (enableWebUI) {
+            // Start with Web UI for local debugging
+            Configuration conf = new Configuration();
+            env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
+        } else {
+            // Use standard environment for production/cluster deployment
+            env = StreamExecutionEnvironment.getExecutionEnvironment();
+        }
+        env.setParallelism(1);
 
         // 3. Determine startup mode from config
         String startupMode = params.get("source.startup.mode", "latest");

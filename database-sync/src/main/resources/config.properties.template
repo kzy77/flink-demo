@@ -37,3 +37,10 @@ target.database=
 # Whether the JDBC sink should automatically create tables in the target database if they don't exist.
 # It is recommended to keep this 'false' in production and manage schema manually.
 sink.auto-create-tables=true
+
+# Flink Execution Settings
+# ------------------------------------------------------------------------------
+# Enable Flink's local Web UI when running in an IDE.
+# Default: false. Set to "true" for local debugging.
+# This should be false when deploying to a remote cluster.
+flink.local.webui.enabled=false
