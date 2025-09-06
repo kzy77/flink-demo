@@ -1,0 +1,39 @@
+# ==============================================================================
+# Flink Database Sync Job Configuration Template
+# ==============================================================================
+#
+# Instructions:
+# 1. Copy this file to 'config.properties' in the same directory.
+# 2. Fill in the connection details for your source and target databases.
+# 3. The job will automatically discover and sync all tables from the source
+#    database to the target database using Flink CDC.
+# 4. 'config.properties' is ignored by git, so your credentials are safe.
+#
+# ==============================================================================
+
+# Source Database (MySQL CDC) Configuration
+# The database user needs REPLICATION SLAVE, REPLICATION CLIENT, SELECT privileges.
+source.hostname=
+source.port=
+source.username=
+source.password=
+source.database=
+
+# The timezone of the source MySQL server, e.g., UTC, GMT+8
+source.server-time-zone=UTC
+# Startup mode for the source. Options:
+# initial: Performs a full snapshot and then stops. (For one-time migration)
+# latest: Performs a full snapshot and then continues with incremental changes. (For continuous sync)
+source.startup.mode=latest
+
+# ==============================================================================
+# Target Database (JDBC Sink) Configuration
+# The database user needs privileges to create tables and write data (INSERT, UPDATE, DELETE).
+target.hostname=
+target.port=
+target.username=
+target.password=
+target.database=
+# Whether the JDBC sink should automatically create tables in the target database if they don't exist.
+# It is recommended to keep this 'false' in production and manage schema manually.
+sink.auto-create-tables=true

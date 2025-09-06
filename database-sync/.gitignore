@@ -1,0 +1,21 @@
+# Local configuration files
+config.properties
+
+# Maven build files
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+build.log
+*.class
+
+# IDE files
+.idea/
+*.iml
+*.iws
+.classpath
+.project
+.settings/
